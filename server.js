@@ -368,8 +368,8 @@ const db = initDb();
 
   app.post('/api/bodyweight', (req, res) => {
     const { weight_kg, logged_at } = req.body;
-    if (!isNum(weight_kg, 10, 700)) return bad(res, 'weight_kg must be a number between 10 and 700');
-    if (logged_at && !isDate(logged_at)) return bad(res, 'logged_at must be a valid YYYY-MM-DD date');
+    if (!isNum(weight_kg, 10, 700)) return bad(res, 'Weight must be a number between 10 and 700');
+    if (logged_at && !isDate(logged_at)) return bad(res, 'The date must be a valid YYYY-MM-DD date');
     const r = db.prepare(
       'INSERT INTO body_weight (user_id, weight_kg, logged_at) VALUES (?, ?, ?)'
     ).run(req.userId, Number(weight_kg), logged_at || new Date().toISOString());
@@ -512,7 +512,7 @@ const meals = db.prepare(
   app.post('/api/meals', (req, res) => {
     const { name, logged_at } = req.body;
     if (!isStr(name, 100)) return bad(res, 'Meal name required (max 100 chars)');
-    if (logged_at && !isDate(logged_at)) return bad(res, 'logged_at must be a valid YYYY-MM-DD date');
+    if (logged_at && !isDate(logged_at)) return bad(res, 'Date logged must be a valid YYYY-MM-DD date');
     const r = db.prepare(
       'INSERT INTO meals (user_id, name, logged_at) VALUES (?, ?, ?)'
     ).run(req.userId, name.trim(), logged_at || estDateStr());
@@ -537,8 +537,8 @@ const meals = db.prepare(
     const mid = parseInt(req.params.id, 10);
     if (!isInt(mid, 1, 1e9)) return bad(res, 'Invalid meal id');
     if (!isInt(food_id, 1, 1e9)) return bad(res, 'Invalid food_id');
-    if (!isNum(amount_g, 0.1, 5000)) return bad(res, 'amount_g must be between 0.1 and 5000');
-    if (!isInt(qty, 1, 99)) return bad(res, 'qty must be an integer 1–99');
+    if (!isNum(amount_g, 0.1, 5000)) return bad(res, 'Amount must be between 0.1 and 5000');
+    if (!isInt(qty, 1, 99)) return bad(res, 'Quantity must be an integer 1–99');
     const existing = db.prepare(
       'SELECT * FROM meal_foods WHERE meal_id=? AND food_id=?'
     ).get(mid, food_id);
