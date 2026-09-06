@@ -190,8 +190,10 @@
       <h2>Add Meal</h2>
       <div class="form-row">
         <input id="meal-name" class="input" placeholder="Meal name (e.g. Breakfast)"
-               aria-label="Meal name"
-               onkeydown="if(event.key==='Enter') App.addMeal()" />
+               aria-label="Meal name" maxlength="50"
+               onkeydown="if(event.key==='Enter') App.addMeal()"
+               oninput="document.getElementById('meal-name-count').textContent=this.value.length+'/50';document.getElementById('meal-name-count').style.color=this.value.length>=50?'var(--color-danger)':'var(--text-muted)'" />
+        <span id="meal-name-count" style="font-size:.75rem;color:var(--text-muted);align-self:center;white-space:nowrap">0/50</span>
         <button type="button" class="btn btn--primary" onclick="App.addMeal()">Create</button>
         <button type="button" class="btn" onclick="App.hideAddMeal()">Cancel</button>
       </div>
